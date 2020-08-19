@@ -5,30 +5,6 @@ import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
 import Spotify from '../../util/Spotify';
 
-// let sampleTrack1 = {
-//   name: 'Bob',
-//   artist: 'Eminem',
-//   album: 'Untouchable',
-//   id: 0
-// }
-// let sampleTrack4 = {
-//   name: 'asd',
-//   artist: 'Eminem',
-//   album: 'XXX',
-//   id: 0
-// }
-// let sampleTrack3 = {
-//   name: 'fghasa',
-//   artist: 'Eminem',
-//   album: 'XXX',
-//   id: 0
-// }
-// let sampleTrack2 = {
-//   name: 'Mike',
-//   artist: 'Dylan',
-//   album: 'first',
-//   id: 1
-// }
 
 export default function App(){
   //array containing track objects, function in use state makes it run only once
@@ -55,13 +31,14 @@ export default function App(){
     const trackUris = playListTracks.map(track => track.uri)
     Spotify.savePlaylist(playListName, trackUris).then( ()=> {
       setPlayListName('New Playlist')
-      setPlayListTracks([])
+      setSearchResults([])
     })
   }
 
   //might need arrow function on setSearchResults
   const search = term => {
-    Spotify.search(term).then(results => setSearchResults([...searchResults,results]))
+    Spotify.search(term).then(results => setSearchResults([...searchResults,...results]))
+    setPlayListTracks([])
   }
 
   // debugger
