@@ -7,7 +7,6 @@ import Spotify from '../../util/Spotify';
 
 
 export default function App(){
-  //array containing track objects, function in use state makes it run only once
   const [searchResults, setSearchResults] = useState([]);
   const [playListName, setPlayListName] = useState('New Playlist');
   const [playListTracks, setPlayListTracks] = useState([]);
@@ -28,7 +27,6 @@ export default function App(){
     setPlayListName(name)
   }
 
-  //resp is undefined
   const savePlayList = () => {
     const trackUris = playListTracks.map(track => track.uri)
     Spotify.savePlaylist(playListName, trackUris).then(()=> {
@@ -39,14 +37,10 @@ export default function App(){
     })
   }
 
-  //might need arrow function on setSearchResults
-  //clear previous search results
   const search = term => {
     Spotify.search(term).then(results => setSearchResults([...searchResults,...results]))
   }
 
-  // debugger
-  // throw new Error('test')
   return (
     <div>
       <h1>Ja<span className="highlight">mmm</span>ing</h1>
