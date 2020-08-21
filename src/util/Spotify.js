@@ -1,3 +1,5 @@
+// import Playlist from "../components/Playlist/Playlist";
+
 let accessToken;
 const clientId = '24a699cc555d4644ae3e0cac21ebb1dd';
 const redirectUri = "http://localhost:3000/";
@@ -59,28 +61,26 @@ const Spotify = {
     let userId;
 
     //GET userId
-    fetch('https://api.spotify.com/v1/me', { headers: headers }
+    return fetch('https://api.spotify.com/v1/me', { headers: headers }
     ).then(response => response.json()
     ).then(jsonResponse => {
       userId = jsonResponse.id
       //POST new playlist
-      return fetch(`https://api.spotify.com/v1/v1/users/${userId}/playlists`,{
+      return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`,{
         headers: headers,
         method: 'POST',
         body: JSON.stringify({ name: playlistName })
       }).then(response => response.json()
       ).then(jsonResponse => {
-        const playlistID = jsonResponse.id
+        const playlistId = jsonResponse.id
         //POST tracks to playlist
-        return fetch(`https://api.spotify.com/v1/v1/playlists/${playlistID}/tracks`,{
+        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`,{
           headers: headers,
           method: 'POST',
           body: JSON.stringify({ uris: trackUris })
         })
       })
-    })
-
-    
+    }) 
   }
 
 }

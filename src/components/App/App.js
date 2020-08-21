@@ -11,6 +11,7 @@ export default function App(){
   const [searchResults, setSearchResults] = useState([]);
   const [playListName, setPlayListName] = useState('New Playlist');
   const [playListTracks, setPlayListTracks] = useState([]);
+  const [resetPlaylist, setResetPlaylist] = useState(false)
 
   const addTrack = track => {
     if(playListTracks.find(savedTrack => savedTrack.id === track.id)){
@@ -27,18 +28,21 @@ export default function App(){
     setPlayListName(name)
   }
 
+  //resp is undefined
   const savePlayList = () => {
     const trackUris = playListTracks.map(track => track.uri)
-    Spotify.savePlaylist(playListName, trackUris).then( ()=> {
+    Spotify.savePlaylist(playListName, trackUris).then(()=> {
       setPlayListName('New Playlist')
+      setResetPlaylist(true)
+      setPlayListTracks([])
       setSearchResults([])
     })
   }
 
   //might need arrow function on setSearchResults
+  //clear previous search results
   const search = term => {
     Spotify.search(term).then(results => setSearchResults([...searchResults,...results]))
-    setPlayListTracks([])
   }
 
   // debugger
@@ -55,7 +59,9 @@ export default function App(){
                       playListTracks={playListTracks}
                       onRemove={removeTrack}
                       onNameChange={updatePlaylistName}
-                      onSave={savePlayList} />
+                      onSave={savePlayList} 
+                      onReset={resetPlaylist}
+                      />
         </div>
       </div>
     </div>
