@@ -10,7 +10,8 @@ export default function App(){
   const [searchResults, setSearchResults] = useState([]);
   const [playListName, setPlayListName] = useState('New Playlist');
   const [playListTracks, setPlayListTracks] = useState([]);
-  const [resetPlaylist, setResetPlaylist] = useState(false)
+  // to reset the value of 'New Playlist'
+  const [resetPlaylist, setResetPlaylist] = useState(false);
 
   const addTrack = track => {
     if(playListTracks.find(savedTrack => savedTrack.id === track.id)){
@@ -37,7 +38,9 @@ export default function App(){
     })
   }
 
+  // want to remove search results when new ones come in.
   const search = term => {
+    setSearchResults([])
     Spotify.search(term).then(results => setSearchResults([...searchResults,...results]))
   }
 
