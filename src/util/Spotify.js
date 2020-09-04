@@ -4,11 +4,9 @@ let accessToken;
 const clientId = '24a699cc555d4644ae3e0cac21ebb1dd';
 const redirectUri = "http://localhost:3000/";
 
-// accessToken = window.localStorage.getItem('accessToken');
 const Spotify = {
   getAccessToken (){
-    // preserving the token in local storage until it expires
-    if (accessToken){
+    if(accessToken){
       return accessToken; 
     }
     const accessTokenMatch = window.location.href.match(/access_token=([^&]*)/);
@@ -21,8 +19,6 @@ const Spotify = {
       //clean up params, allowing us to retrieve a new access token when expired.
       window.setTimeout(() => (accessToken = ''), expiresIn * 1000);
       window.history.pushState('Access Token', null, '/');
-      window.localStorage.setItem('accessToken', accessToken);
-
 
       return accessToken;
     } else {
@@ -32,12 +28,7 @@ const Spotify = {
   },
 
   search(term) {
-    //use stored accessToken or generate a new one
-    accessToken = window.localStorage.getItem('accessToken');
-    console.log(accessToken)
-    if (!accessToken){
-      accessToken = Spotify.getAccessToken();
-    }
+    const accessToken = Spotify.getAccessToken();
     return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -64,12 +55,10 @@ const Spotify = {
     if(!playlistName || !trackUris.length){
       return;
     }
-    
+
     const accessToken = Spotify.getAccessToken();
     const headers = {Authorization: `Bearer ${accessToken}`}
     let userId;
-    console.log('Saving a playlist')
-    console.log(accessToken)
 
     //GET userId
     return fetch('https://api.spotify.com/v1/me', { headers: headers }
