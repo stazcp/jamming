@@ -1,7 +1,7 @@
 // import Playlist from "../components/Playlist/Playlist";
 
 let accessToken;
-const clientId = '24a699cc555d4644ae3e0cac21ebb1dd';
+const clientId = 'e58d40cef0a646c79668226a7372f237';
 const redirectUri = "http://localhost:3000/";
 
 const Spotify = {
